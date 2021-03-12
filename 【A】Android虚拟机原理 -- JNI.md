@@ -1,10 +1,15 @@
 ## 【A】Android虚拟机 -- JNI
 
-> c技术栈包括：
->
-> 1. c/c++ 基础与进阶学习
-> 2. JNI入门、NDK开发实践
-> 3. openCV、openGL、ffmpeg音视频开发技术
+> 3. 
+
+
+
+### SelfCheck
+
+- JNI是否了解 如何加载NDK库 ？
+- 
+
+
 
 
 
@@ -16,7 +21,7 @@ Java层有两种field：静态成员和实例成员，两者在JNi层获取和�
 
 
 
-在JNI层维护i一个Java对象，如何避免被VM 垃圾回收？
+在JNI层维护一个Java对象，如何避免被VM 垃圾回收？
 
 使用NewGlobalRef  告诉VM不要回收此对象，当本地代码最终结束该对象的引用时，DeleteGlobalRef释放之。
 

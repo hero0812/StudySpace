@@ -26,7 +26,7 @@
 
 
 
-### 
+
 
 
 
@@ -38,8 +38,18 @@
 
 https://mp.weixin.qq.com/s?__biz=MzI1MzYzMjE0MQ==&mid=2247485042&idx=1&sn=fe32711dbcb483f7a47dfa0e304087c4&scene=21#wechat_redirect
 
+- Trasnform 与 Task 关系
+
+https://juejin.cn/post/6875141808825991181
+
 
 
 - 【官方文档】Gradle插件开发指南
 
 https://guides.gradle.org/designing-gradle-plugins/
+
+
+
+- 抖音 -- ByteX基于gradle transform api和ASM的字节码插件平台
+
+https://github.com/bytedance/ByteX/blob/master/README_zh.md

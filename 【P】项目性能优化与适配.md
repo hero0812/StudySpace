@@ -1,8 +1,10 @@
 ## 【P】项目性能优化与适配
 
-
-
 ### 一、性能优化
+
+https://www.jianshu.com/p/5950e1e8b31e
+
+
 
 ### 电量优化
 
@@ -201,6 +203,8 @@ https://github.com/shwenzhang/AndResGuard
 
 #### 参考资源
 
+- 
+
 - Android开发高手课 -- 模块一 高质量开发篇
 
   https://time.geekbang.org/column/article/70602
@@ -210,69 +214,6 @@ https://github.com/shwenzhang/AndResGuard
 - jessonChao APM技术博文
 
 ​	https://juejin.cn/post/6844903972587716621
-
-
-
-
-
-
-
-#### 数据结构的优化
-
-##### ArrayList 与 LinkedList
-
-ArrayList 内部使用数组，随机访问效率高
-
-添加、删除涉及到扩容和元素移动，效率低
-
-
-
-LinkedList 采用双向链表
-
-查找慢
-
-插入、删除结点快
-
-
-
-##### HashMap原理，有什么性能问题
-
-JDK 1.7 时代。数组+链表
-
-JDK 1.8 后 数组+链表+红黑树
-
-key int装箱
-
-
-
-###### SpareAray 
-
-SparseArray只能存储key为int类型的数据，同时，SparseArray在存储和读取数据时候，使用的是二分查找法,也就是在put添加数据的时候，会使用二分查找法和之前的key比较当前我们添加的元素的key的大小，然后按照从小到大的顺序排列好，所以，SparseArray存储的元素都是按元素的key值从小到大排列好的。 
-
-
-
-满足下面两个条件我们可以使用SparseArray代替HashMap：
-
-- 数据量不大，最好在千级以内
-- key必须为int类型，这中情况下的HashMap可以用SparseArray代替：
-
-
-
-######  ArrayMap
-
-ArrayMap是一个<**key,value**>映射的数据结构，它设计上更多的是考虑内存的优化，内部是使用两个数组进行数据存储，一个数组记录key的hash值，另外一个数组记录Value值，它和SparseArray一样，也会对key使用二分法进行从小到大排序，在添加、删除、查找数据的时候都是先使用二分查找法得到相应的index
-
-
-
-**总结**
-
-1、如果key的类型已经确定为int类型，那么使用SparseArray，因为它避免了自动装箱的过程，如果key为long类型，它还提供了一个LongSparseArray来确保key为long类型时的使用
-
-2、如果key类型为其它的类型，则使用ArrayMap
-
-
-
-
 
 
 
@@ -408,6 +349,12 @@ chain属性
   高版本设备自动开启
 
 
+
+#### 机型适配
+
+##### 【问题】华为P30 系统升级后，限制广告跟踪导致oaid返回000
+
+![image-20210129153721069](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210129153721069.png)
 
 
 

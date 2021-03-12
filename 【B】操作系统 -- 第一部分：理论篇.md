@@ -455,9 +455,9 @@ $$
 伪代码：
 
 ```c
-samephore mutex  = 1; //互斥信号量，实现对缓冲区的互斥访问
-semaohore empty = n; //资源型信号量，表示空闲缓冲区的数量
-smephore full = 0; //资源型信号量，表示产品的数量，即当前产品库存
+semaphore mutex  = 1; //互斥信号量，实现对缓冲区的互斥访问
+semaphore empty = n; //资源型信号量，表示空闲缓冲区的数量
+semaphore full = 0; //资源型信号量，表示产品的数量，即当前产品库存
 
 //生产者
 producer(){

@@ -17,7 +17,7 @@
 
 ##### Class文件格式总览
 
-![image-20210118140127809](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118140127809.png)
+![image-20210118140127809](./images/image-20210118140127809.png)
 
 
 
@@ -69,7 +69,7 @@ tag 值是表的标识，JVM 解析 class 文件时，通过这个值来判断�
 
 
 
-![img](/Users/zhanghongxi/ABP-study/StudySpace/images/Cgq2xl6DCV6AcrLKAAIl1RRQwuM068.png)
+![img](./images/Cgq2xl6DCV6AcrLKAAIl1RRQwuM068.png)
 
 以上 14 种表都有自己的结构，以 CONSTANT_Class_info 和 CONSTANT_Utf8_info 这两张表举例说明：
 
@@ -158,7 +158,7 @@ cafe babe 0000 0034 001d 0a00 0600 1509
 javap -v Test.class
 ```
 
-![image-20210118151641355](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118151641355.png)
+![image-20210118151641355](./images/image-20210118151641355.png)
 
 
 
@@ -168,7 +168,7 @@ javap -v Test.class
 
 常量池之后就是访问标志，
 
-![image-20210118151119348](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118151119348.png)
+![image-20210118151119348](./images/image-20210118151119348.png)
 
 
 
@@ -184,13 +184,13 @@ javap -v Test.class
 
 **0002** 表示类中声明了 2 个变量（在 class 文件中叫字段），字段计数器之后会紧跟着 2 个字段表的数据结构。
 
-![image-20210118153943590](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118153943590.png)
+![image-20210118153943590](./images/image-20210118153943590.png)
 
 
 
 字段访问标志
 
-![image-20210118154024033](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118154024033.png)
+![image-20210118154024033](./images/image-20210118154024033.png)
 
 
 
@@ -228,13 +228,13 @@ CONSTANT_Methodref_info{
 
 方法访问标志对应表：
 
-![img](/Users/zhanghongxi/ABP-study/StudySpace/images/Ciqah16DCWCAAdkIAAFVaPL8OfA302.png)
+![img](./images/Ciqah16DCWCAAdkIAAFVaPL8OfA302.png)
 
 
 
 add方法，16进制字节码表示为：
 
-![img](/Users/zhanghongxi/ABP-study/StudySpace/images/Cgq2xl6DCWCAK8l0AAAU6SkPGdo841.png)
+![img](./images/Cgq2xl6DCWCAK8l0AAAU6SkPGdo841.png)
 
 可以看出 add 方法的以下字段的具体值：
 
@@ -260,7 +260,7 @@ attribute_info {
 
 > 属性名称和作用
 
-![image-20210118155516228](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118155516228.png)
+![image-20210118155516228](./images/image-20210118155516228.png)
 
 
 
@@ -270,7 +270,7 @@ attribute_info {
 
 > Code_attribute数据结构
 
-![image-20210118155950247](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118155950247.png)
+![image-20210118155950247](./images/image-20210118155950247.png)
 
 
 
@@ -308,13 +308,13 @@ public int add(int i , int j){
 
 > .class文件中字节码
 
-![image (5).png](/Users/zhanghongxi/ABP-study/StudySpace/images/Ciqc1F6qehmAcmWNAAB3egTLyn0886.png)
+![image (5).png](./images/Ciqc1F6qehmAcmWNAAB3egTLyn0886.png)
 
 
 
 > .dex文件中字节码
 
-![image (6).png](/Users/zhanghongxi/ABP-study/StudySpace/images/Ciqc1F6qeiKAYxCiAAA-QtFxAzw826.png)
+![image (6).png](./images/Ciqc1F6qeiKAYxCiAAA-QtFxAzw826.png)
 
 
 
@@ -334,7 +334,7 @@ JVM中年轻代、老年代，年轻代又分为Eden、Survivor，Survivor又分
 
 DVM中堆内存被划分为2部分：Active Heap和Zygote Heap
 
-![图片2.png](/Users/zhanghongxi/ABP-study/StudySpace/images/CgqCHl6qe9WAY-x4AAHlcF3z4X8795.png)
+![图片2.png](./images/CgqCHl6qe9WAY-x4AAHlcF3z4X8795.png)
 
 
 
@@ -364,7 +364,7 @@ Zygote 进程是在系统启动时产生的，它会完成虚拟机的初始化�
 
 #### Dex文件格式概貌
 
-![image-20210118162142559](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118162142559.png)
+![image-20210118162142559](./images/image-20210118162142559.png)
 
 
 
@@ -392,7 +392,7 @@ Zygote 进程是在系统启动时产生的，它会完成虚拟机的初始化�
 
 > header_item 数据结构伪代码
 
-![image-20210118163107181](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118163107181.png)
+![image-20210118163107181](./images/image-20210118163107181.png)
 
 
 
@@ -406,13 +406,13 @@ Zygote 进程是在系统启动时产生的，它会完成虚拟机的初始化�
 
 #### string_id_item等
 
-![image-20210118163622866](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118163622866.png)
+![image-20210118163622866](./images/image-20210118163622866.png)
 
 
 
 #### class_def
 
-![image-20210118163826441](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118163826441.png)
+![image-20210118163826441](./images/image-20210118163826441.png)
 
 
 
@@ -450,7 +450,7 @@ dexdump -d dex 文件
 
 #### Android 虚拟机中的ClassLoader
 
-![image-20210118192251519](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118192251519.png)
+![image-20210118192251519](./images/image-20210118192251519.png)
 
 
 
@@ -458,27 +458,37 @@ dex是Android虚拟机特有的文件而不是Java虚拟机可执行文件，所
 
 但是从Android O开始，从源码可见，两者在构造方法中File optimizedDirectory都传null ， 所以功能上不再有任何区别。
 
+BootClassLoader 用来加载Android SDK中的类。
+
+
+
 
 
 #### 双亲委托机制
 
+
+
 ClassLoader类构造函数中，可以传入另一个ClassLoader作为parent，在调用加载器的loadClass()方法加载类时，首先将加载任务交给上述parent 加载器，依次递归，如果parent加载器可以完成类加载任务，就成功返回，否则才自己去加载。
 
-![image-20210119012837036](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210119012837036.png)
+![image-20210119012837036](./images/image-20210119012837036.png)
 
 
 
 上面说过，PathClassLoader 和DexClassLoader都继承自BaseDexClassLoader，两者都只有构造方法，没有具体类加载的逻辑。所以当指定的parent 加载器加载不到，那么就要调用它们继承关系上讲的父类BaseDexClassLoader的 findClass方法来从dex中查找：
 
-![image-20210119013857119](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210119013857119.png)
+![image-20210119013857119](./images/image-20210119013857119.png)
 
 
 
 DexPathList中持有一个dexElements数组，1个Element对象对应一个DexFile，所以BaseDexClassLoader中查找类的逻辑，遍历每个DexFile，通过DexFile的 native方法 loadClassBinaryName尝试查找class
 
-![image-20210119014416311](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210119014416311.png)
+![image-20210119014416311](./images/image-20210119014416311.png)
 
 
+
+双亲委派机制时序图
+
+![image-20210206121508168](./images/image-20210206121508168.png)
 
 
 
@@ -516,7 +526,7 @@ Dalvik虚拟机在加载一个dex文件前，系统通过dexopt会对dex做优�
 1. 最初安装应用不进行任何AOT编译，运行过程中，解释执行，对经常执行的方法进行JIT，经过JIT编译的方法将会记录到Profile配置文件中。
 2. 当设备空闲和充电时，编译守护进程会运行，根据Profile文件对常用代码进行AOT编译。待下次运行时直接使用。
 
-![image-20210118171253299](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118171253299.png)
+![image-20210118171253299](./images/image-20210118171253299.png)
 
 
 

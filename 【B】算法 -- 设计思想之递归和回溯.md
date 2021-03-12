@@ -48,9 +48,13 @@
 
 
 
+### 学习资源
 
+- 极客时间 -- 数据结构与算法之美 - 王铮
 
+- 理解递归和动态规划
 
+https://mp.weixin.qq.com/s?__biz=MzUyNjQxNjYyMg==&mid=2247484350&idx=1&sn=fc88aa125f5a5269575b4c4d83774f41&chksm=fa0e6c3fcd79e5297257a05b8c75898b4059b1193956c702ff5ef3f2d8d46432bb7484bf6428&scene=21#wechat_redirect
 
 
 

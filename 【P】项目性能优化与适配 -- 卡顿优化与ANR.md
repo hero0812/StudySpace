@@ -1,10 +1,6 @@
-## 【P】项目性能优化与适配 -- 卡顿优化与ANR
+## 【P】项目性能优化与适配 -- 卡顿与ANR 优化
 
-
-
-### 卡顿排查、优化
-
-#### 卡顿优化
+#### 卡顿原理
 
 一般主线程过多的UI绘制、大量的IO操作或是大量的计算操作占用CPU，导致16ms内未完成绘制，会是造成卡顿的原因。简单来说， Android使用消息机制进行UI更新，UI线程有个Looper，在其loop方法中会不断取出message，调用其绑定的 Handler在UI线程执行。如果在handler的dispatchMesaage方法里有耗时操作，就会发生卡顿。详细Android UI绘制流程移步：
 
@@ -14,15 +10,19 @@
 
 
 
+1. UI绘制
 
 
-##### 卡顿排查工具
 
-卡顿
+2. 数据处理占据CPU造成
+
+
+
+#### 卡顿排查工具
 
 Traceview和systrace 代表了卡顿排查工具的两个流派。
 
-1. Systrace工具 进行丢帧分析与app卡顿检测
+1. **Systrace工具** 进行丢帧分析与app卡顿检测
 
    一般用于页面中滑动操作，
 
@@ -42,27 +42,32 @@ Traceview和systrace 代表了卡顿排查工具的两个流派。
 
 3. 代码监控方案1
 
-   Looper msg.target.dispatchMessage的前打印了log，dispatch finish后又打印了log，只要算一下这个时间差，可以监控卡顿。
+   Looper类中名为mLoggin的Printer类型成员 ，msg.target.dispatchMessage的前打印了log，dispatch finish后又打印了log，只要算一下这个时间差，可以监控卡顿。
 
-   ```
+   ```java
    public static void loop() { 
-   for (;;) { //......
-   Printer logging = me.mLogging; if (logging != null) {
-   logging.println(">>>>> Dispatching to " + msg.target + " " +
-   msg.callback + ": " + msg.what); }
-   msg.target.dispatchMessage(msg); if (logging != null) {
-   logging.println("<<<<< Finished to " + msg.target + " " + msg.callback); }
-   //......
+   for (;;) { 
+     //......
+   	Printer logging = me.mLogging;
+     if (logging != null) {
+   		logging.println(">>>>> Dispatching to " + msg.target + " " +
+   		msg.callback + ": " + msg.what);
+     }
+   	msg.target.dispatchMessage(msg); 
+     if (logging != null) {
+		logging.println("<<<<< Finished to " + msg.target + " " + msg.callback); 
+     }
+//......
    } }
-   ```
-
+```
    
 
    
-
+   
+   
    Looper 预留了接口，设置自定义LogMonitor：
-
-   ```
+   
+   ```java
    public class LogMonitor implements Printer {
    
    
@@ -118,12 +123,12 @@ Traceview和systrace 代表了卡顿排查工具的两个流派。
    
        private boolean isBlock(long endTime) {
            return endTime - mStartTimestamp > mBlockThresholdMillis;
-       }
+    }
    
    
    }
    ```
-
+   
    ```
    //获取内存栈状态信息
    public class StackSampler {
@@ -205,12 +210,12 @@ Traceview和systrace 代表了卡顿排查工具的两个流派。
                    mHandler.postDelayed(mRunnable, mSampleInterval);
                }
            }
-       };
+    };
    
    }
    
    ```
-
+   
    
 
 > blockcanary原理，目的
@@ -264,78 +269,82 @@ public class ChoreographerHelper {
 
 
 
-##### 卡顿优化手段
 
-1. 减少布局层级
 
-   AS自带的Layout Inspector
+#### 卡顿优化手段 -- **解决过度绘制**
 
-2. 使用include、merge、ViewStub标签
+##### 1）移除布局中不需要的背景。
 
-   > ViewStub的原理
+​	  不必要的背景可能永远不可见，因为它会被应用在该视图上 绘制的任何其他内容完全覆盖。例如，当系统在父视图上绘制子视图时，可能会完全覆盖父视图的背 景。
+
+##### 2）减少布局层级，使视图层次结构扁平化。
+
+AS自带的Layout Inspector
+
+使用include、merge、ViewStub标签
+
+使用约束布局
+
+
+
+##### 3）降低透明度。
+
+​		对于不透明的 view ，只需要渲染一次即可把它显示出来。但是如果这个 view 设置了 alpha 值，则至 少需要渲染两次。这是因为使用了 alpha 的 view 需要先知道混合 view 的下一层元素是什么，然后再 结合上层的 view 进行Blend混色处理。透明动画、淡入淡出和阴影等效果都涉及到某种透明度，这就会 造成了过度绘制。可以通过减少要渲染的透明对象的数量，来改善这些情况下的过度绘制。例如，如需 获得灰色文本，可以在 TextView 中绘制黑色文本，再为其设置半透明的透明度值。但是，简单地通过 用灰色绘制文本也能获得同样的效果，而且能够大幅提升性能。
+
+
+
+> 设计检测过度绘制的工具，要具体到view。
+
+
+
+
+
+
+
+#### 卡顿优化手段 -- **布局加载优化**
+
+
+
+##### ViewStub懒加载
+
+
+
+##### 异步加载方案
+
+LayoutInflater加载xml布局的过程会在主线程使用IO读取XML布局文件进行XML解析，再根据解析结果利用反射 创建布局中的View/ViewGroup对象。这个过程随着布局的复杂度上升，耗时自然也会随之增大。
+
+可以选择使用AsyncLayoutInflater异步加载
+
+```
+dependencies {
+implementation "androidx.asynclayoutinflater:asynclayoutinflater:1.0.0"
+}
+```
+
+```
+new AsyncLayoutInflater(this)
+.inflate(R.layout.activity_main, null, new AsyncLayoutInflater.OnInflateFinishedListener() { @Override
+public void onInflateFinished(@NonNull View view, int resid, @Nullable ViewGroup parent) {
+           setContentView(view);
+//......
+} });
+```
+
+几点需要注意：
+
+1. 使用异步 inflate，那么需要这个 layout 的 parent 的 generateLayoutParams 函数是线程安全的;
+
+2. 所有构建的 View 中必须不能创建 Handler 或者是调用 Looper.myLooper;(因为是在异步线程中加载的，异步线程默认没有调用 Looper.prepare );
+
+3. AsyncLayoutInflater 不支持设置 LayoutInflater.Factory 或者 LayoutInflater.Factory2;
+
+4. 不支持加载包含 Fragment 的 layout
+
+5. 如果 AsyncLayoutInflater 失败，那么会自动回退到UI线程来加载布局;
 
    
 
-3. **解决过度绘制**
-
-   1）移除布局中不需要的背景。
-
-   ​	  不必要的背景可能永远不可见，因为它会被应用在该视图上 绘制的任何其他内容完全覆盖。例如，当系统在父视图上绘制子视图时，可能会完全覆盖父视图的背 景。
-
-   2）使视图层次结构扁平化。
-
-   3）降低透明度。
-
-   ​		对于不透明的 view ，只需要渲染一次即可把它显示出来。但是如果这个 view 设置了 alpha 值，则至 少需要渲染两次。这是因为使用了 alpha 的 view 需要先知道混合 view 的下一层元素是什么，然后再 结合上层的 view 进行Blend混色处理。透明动画、淡入淡出和阴影等效果都涉及到某种透明度，这就会 造成了过度绘制。可以通过减少要渲染的透明对象的数量，来改善这些情况下的过度绘制。例如，如需 获得灰色文本，可以在 TextView 中绘制黑色文本，再为其设置半透明的透明度值。但是，简单地通过 用灰色绘制文本也能获得同样的效果，而且能够大幅提升性能。
-
-   
-
-   > 设计检测过度绘制的工具，要具体到view。
-
-   
-
-   
-
-   
-
-4. **布局加载优化**
-
-   移步加载方案
-
-   LayoutInflater加载xml布局的过程会在主线程使用IO读取XML布局文件进行XML解析，再根据解析结果利用反射 创建布局中的View/ViewGroup对象。这个过程随着布局的复杂度上升，耗时自然也会随之增大。
-
-   可以选择使用AsyncLayoutInflater异步加载
-
-   ```
-   dependencies {
-   implementation "androidx.asynclayoutinflater:asynclayoutinflater:1.0.0"
-   }
-   ```
-
-   ```
-   new AsyncLayoutInflater(this)
-   .inflate(R.layout.activity_main, null, new AsyncLayoutInflater.OnInflateFinishedListener() { @Override
-   public void onInflateFinished(@NonNull View view, int resid, @Nullable ViewGroup parent) {
-              setContentView(view);
-   //......
-   } });
-   ```
-
-   几点需要注意：
-
-   1. 使用异步 inflate，那么需要这个 layout 的 parent 的 generateLayoutParams 函数是线程安全的;
-
-   2. 所有构建的 View 中必须不能创建 Handler 或者是调用 Looper.myLooper;(因为是在异步线程中加载的，异步线程默认没有调用 Looper.prepare );
-
-   3. AsyncLayoutInflater 不支持设置 LayoutInflater.Factory 或者 LayoutInflater.Factory2;
-
-   4. 不支持加载包含 Fragment 的 layout
-
-   5. 如果 AsyncLayoutInflater 失败，那么会自动回退到UI线程来加载布局;
-
-      
-
-5. 掌阅X2C方案
+1. 掌阅X2C方案
 
    xml的解析涉及到大量耗时的反射操作，掌阅X2C方案是在编译生成APK期间，将需要的layout xml翻译生成对应的java文件。
 
@@ -344,6 +353,10 @@ public class ChoreographerHelper {
    > 这一步在 gradle 构建的哪个阶段 ？
 
 
+
+##### Fragment + ViewPager 懒加载方案
+
+setUserVisibleHint()
 
 
 

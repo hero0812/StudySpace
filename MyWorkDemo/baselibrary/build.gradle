@@ -35,4 +35,6 @@ dependencies {
     api rootProject.ext.support["design"]
     api rootProject.ext.dependencies["androidx-appcompat"]
     api rootProject.ext.dependencies["butterknife"]
+    implementation 'com.github.bumptech.glide:glide:4.4.0'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
 }

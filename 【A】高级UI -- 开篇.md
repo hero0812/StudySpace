@@ -11,29 +11,10 @@
 ### 输出倒逼输入
 
 - View绘制机制，onMeasure onLayout ,onDraw方法的调用机制谈一下
-
 - 硬件加速的底层实现。
-
 - 双缓冲机制。
-
 - 矢量图的原理。
-
 - 【设计】设计检测过度绘制的工具，要具体到view。
-
-- 
-
-- 自定义控件有哪几种实现方式？在实现自定义控件时需要重写哪几个构造方法？ 
-
-- 自定义view的步骤，Android的wrap_content是如何计算的
-
-- 定一个宽高相同的ImageView，你怎么做，重写哪些方法 
-
-- 如果我要显示一张图片，要求一定要4:3显示(onMeasure的setMeasureDimension)
-
-- **使用自动布局，把三个view横向等宽等间距（与父view边距也相等）排列。**
-
-- 如何绘制大于父view的子view
-
 - 
 
 - 对ACTION_CANCEL事件的理解，什么时候触发 
@@ -52,15 +33,11 @@
 
 - 
 
-- ListView性能优化，以及ListView的各种原理，listview内点击buttom并移动的事件流完整拦截过程
-
 - **RecyclerView优点，原理，**说下RecyclerView回收池原理
-
-- ListView和RecyclerView？在ListView或者RecyerView中给一个itemView，怎么得到这个View中数据在Datas的索引 
 
 - 为什么RecyclerView加载首屏会慢一些，recycleview的性能指标
 
-- CoordinatorLayout、CollapsingToolbarLayout原理以及使用
+  
 
   
 
@@ -70,12 +47,11 @@
 
 ### 知识体系导图
 
-- View绘制原理
-- 自定义View/ViewGroup基本流程
+- **自定义View/ViewGroup基本流程**
   - FlowLayout实战
   - 自定义Banner实战
+- View绘制原理
 - View事件分发机制
-  
   - PhotoView事件分发
 - 滑动冲突处理
   - 京东淘宝首页二级联动
@@ -84,32 +60,28 @@
 - Android 动画实战与原理
   
   - 灵动的锦鲤
-- 常用UI组件 -- FrameLayout、LinearLayout
 - 常用UI组件 -- RecycleView原理
+- 常用UI组件 -- FrameLayout、LinearLayout
 
 
 
 ### 文章导航
 
-高级UI系列一：从布局文件解析过程看 Activiy、Window、View的关系
+高级UI系列一：自定义View基本流程
 
-高级UI系列二：View的绘制过程
+高级UI系列二：布局解析与加载过程 --  Activiy、Window、View的关系
 
-高级UI系列三：自定义View/ViewGroup基本流程、LinearLayout
+高级UI系列三：View的绘制过程（View的渲染）
 
-高级UI系列四：自定义ViewGroup实践 -- 流式布局FlowLayout
+高级UI系列四：View事件分发机制、多点触控
 
-高级UI系列五：自定义View实践 -- 灵动的锦鲤
+高级UI系列五：View事件分发实战--自定义PhotoView
 
-高级UI系列六：View事件分发机制
+高级UI系列六：解决滑动冲突、NestedScrollView嵌套滑动机制分析
 
-高级UI系列七：View事件分发实战--自定义PhotoView
+高级UI系列七：RecycleView使用与原理
 
-高级UI系列八：解决滑动冲突、NestedScrollView嵌套滑动机制分析
-
-高级UI系列九：RecycleView使用与原理
-
-高级UI系列十：View动画应用与原理
+高级UI系列八：动画应用与原理 -- 自定义View实战活动的锦鲤
 
 
 

@@ -6,6 +6,7 @@ import com.zhx._01_sort.ISort;
 import com.zhx._01_sort.SortTestHelper;
 import com.zhx._01_sort.bubble_sort.BubbleSort;
 import com.zhx._01_sort.selection_sort.SelectionSort;
+import com.zhx._02_array.MyArray;
 import com.zhx._03_linked_list_.SingleLinkedList;
 
 /**

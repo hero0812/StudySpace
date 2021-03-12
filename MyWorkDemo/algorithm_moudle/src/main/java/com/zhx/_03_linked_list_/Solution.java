@@ -302,20 +302,54 @@ public class Solution {
      * 删除排序链表中重复元素
      * 当前结点与后继结点值相同，当前结点坐等后继结点指针后移，
      * 直到值不同的结点，一下子跳过去，达到删掉所有重复元素效果
+     *
      * @param list
      * @return
      */
     public Node removeDuplicateElements(Node list) {
         Node current = list;
         while (current != null && current.next != null) {
-            if (current.next.val == current.val){
+            if (current.next.val == current.val) {
                 current.next = current.next.next;
-            }else{
+            } else {
                 current = current.next;
             }
         }
         return list;
     }
+
+    /**
+     * 大数相加
+     */
+    public Node numberAddAsList(Node l1, Node l2) {
+        //head指针记录结果链表头，用作函数返回值；
+        // tail指针参与全程按位相加计算过程，记录计算结果
+        Node head = null, tail = null;
+        int up = 0;
+        while (l1 != null || l2 != null || up > 0) {
+            //按位计算相加
+            int n1 = l1 != null ? l1.val : 0;
+            int n2 = l2 != null ? l2.val : 0;
+            int sum = n1 + n2 + up;
+            int ret = sum % 10;
+            up = sum / 10;
+            if (head == null) {
+                head = tail = new Node(ret);
+            } else {
+                tail.next = new Node(ret);
+                tail = tail.next;
+            }
+            //计算下一位
+            if (l1 != null) {
+                l1 = l1.next;
+            }
+            if (l2 != null){
+                l2 = l2.next;
+            }
+        }
+        return head;
+    }
+
 
     public static void main(String[] args) {
 
@@ -323,8 +357,8 @@ public class Solution {
         Solution solution = new Solution();
 
         //test reverse linkde list
-        int[] nums = {1, 3, 5, 7, 9};
-        int[] nums2 = {2, 4, 6, 8, 10};
+        int[] nums = {9, 9, 9, 9, 9};
+        int[] nums2 = {9, 9, 9};
         Node head = new Node(nums);
         Node head2 = new Node(nums2);
         System.out.println(head);
@@ -341,7 +375,7 @@ public class Solution {
 //        head.next = node1;
 //        node1.next = node2;
 //        node2.next = node3;
-//        node3.next = head;
+//        node3.next = null;
 //        boolean checkCircle = solution.checkCircle(head);
 //        System.out.println("checkCircle = " + checkCircle);
 
@@ -362,7 +396,7 @@ public class Solution {
 //        System.out.println(mergedList);
 
         //find Middle Node
-        Node middleNode = solution.findMiddleNode(head);
+        Node middleNode = solution.numberAddAsList(head,head2);
         System.out.println(middleNode);
     }
 }

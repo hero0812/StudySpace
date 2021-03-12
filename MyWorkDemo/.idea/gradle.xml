@@ -13,8 +13,8 @@
             <option value="$PROJECT_DIR$" />
             <option value="$PROJECT_DIR$/Javalib" />
             <option value="$PROJECT_DIR$/algorithm_moudle" />
+            <option value="$PROJECT_DIR$/android_view_moudle" />
             <option value="$PROJECT_DIR$/baselibrary" />
-            <option value="$PROJECT_DIR$/flow_layout_moudle" />
           </set>
         </option>
         <option name="resolveModulePerSourceSet" value="false" />

@@ -1,5 +1,5 @@
 //include ':asm_lifecycle_plugin_module'
-include ':flow_layout_moudle'
+include ':android_view_moudle'
 //include ':webview'
 include ':algorithm_moudle'
 //include ':app'

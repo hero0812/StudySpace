@@ -7,13 +7,30 @@
 ### 输出倒逼输入
 
 - 动态代理传入的参数都有哪些？非接口的类能实现动态代理吗？
+
 - **反射与动态代理**, 动态代理的方法怎么初始化的 , cglib动态代理
-- **Object中的方法及如何使用？**
+
+- 序列parcelable,serializable差别？Java的serializable有个Id，你知道是有啥用的吗？
+
+- **Object中的方法及如何使用？**Object的hashcode()用来干嘛，怎么自己实现hashcode？
+
 - 接口和抽象类区别 
+
 - Java在程序运行时多态是如何实现的？
+
+- **深拷贝浅拷贝说说？**
+
 - **Java 值传递问题，** 下面代码 str 值最终为多少？换成 Integer 值又为多少，是否会被改变？
-- String、StringBuffer、Stringbuilder , String为什么final、最大长度是多少？
+
+- String StringBuffer StringBuilder在进行字符串操作时的效率；这里主要考察String在内存中是如何创建的； String为什么final、最大长度是多少？
+
 - **两个值相等的 Integer 对象，== 比较，判断是否相等？**
+
+- Java两个整型相加怎么知道有没有溢出
+
+- Unicode和ASCII的区别？Unicode有哪些种类？Java是哪种？
+
+  
 
 
 
@@ -67,7 +84,7 @@ S,U,V 等：第二，第三，第四个类型
 
 ##### 什么是泛型擦除？为什么会有泛型擦除？
 
-​	Java 泛型是在 Java1.5 以后出现的，为保持对以前版本的兼容，使用了擦除的方法实现泛型。擦除是指在 一定程度无视类型参数 T，直接从 T 所在的类开始向上 T 的父类去擦除，如调用泛型方法， 传入类型参数 T 进入方法内部，若没在声明时做类似 public T methodName(T extends Father t){}，Java就进行了向上类型的擦除，直接把参数t当做Object类来处理，而不是传进去的T。 即在有泛型的任何类和方法内部，它都无法知道自己的泛型参数，擦除和转型都是在边界上 发生，即传进去的参在进入类或方法时被擦除掉，但传出来的时候又被转成了我们设置的 T。 在泛型类或方法内，任何涉及到具体类型(即擦除后的类型的子类)操作都不能进行，如 new T()，或者 T.play()(play 为某子类的方法而不是擦除后的类的方法)。
+​	Java 泛型是在 Java1.5 以后出现的，为保持对以前版本的兼容，使用了擦除的方法实现泛型。***擦除是指在 一定程度无视类型参数 T，直接从 T 所在的类开始向上 T 的父类去擦除，如调用泛型方法， 传入类型参数 T 进入方法内部，若没在声明时做类似 public T methodName(T extends Father t){}，Java就进行了向上类型的擦除，直接把参数t当做Object类来处理，而不是传进去的T。 即在有泛型的任何类和方法内部，它都无法知道自己的泛型参数，擦除和转型都是在边界上 发生，即传进去的参数在进入类或方法时被擦除掉，但传出来的时候又被转成了我们设置的 T。*** 在泛型类或方法内，任何涉及到具体类型(即擦除后的类型的子类)操作都不能进行，如 new T()，或者 T.play()(play 为某子类的方法而不是擦除后的类的方法)。
 
 ​	Java虚拟机只认识class，不认识泛型类型，所以Java在编译时擦除了泛型信息，只保留原始类型，这样就不会产生新的类型到字节码。
 
@@ -85,7 +102,7 @@ S,U,V 等：第二，第三，第四个类型
 
 
 
-对于泛型类/接口/方法，编译时，擦除类型变量，替换为限定类型，没有限定类型则替换为Object类型;
+**对于泛型类/接口/方法，编译时，擦除类型变量，替换为限定类型，没有限定类型则替换为Object类型;**
 
 对于泛型接口的实现类而言，声明时便已经确定了具体的类型参数，并实现了具体的接口方法，由于泛型擦除机制的存在，编译后泛型接口的实现类与泛型接口本身方法签名不同了，为解决这个问题，保证多态性（调用接口的方法时，可以正确调用到实现类的方法），java编译器自动生成了桥方法、并提供类型检查。
 
@@ -131,14 +148,22 @@ S,U,V 等：第二，第三，第四个类型
 
    
 
-   但是数组协变是有风险的，把objects[1]  赋值为Box对象，编译虽然可以通过objects[]确实可以存任何对象，但是运行时报错 java.lang.ArrayStoreException 。为了避免这种情况，编译器对于方法参数是有类型检查的，所以面试题： “可以把List< String>传递给一个接受List< Object>参数的方法吗？” 回答是“不可以”。
+   但是数组协变是有风险的，把objects[1]  赋值为Box对象，编译虽然可以通过objects[]确实可以存任何对象，但是运行时报错 java.lang.ArrayStoreException 。**为了避免这种情况，编译器对于方法参数是有类型检查的。**
+
+   >  “可以把List< String>传递给一个接受List< Object>参数的方法吗？”
+
+   ```
+“不可以”。
+   ```
 
    
-
+   
+   
+   
    同样的道理，由于泛型擦除的存在，泛型中类型参数退化成Object，形如List<Fruit>[]、List<Apple>[]这样的结构，是编译不通过的。
-
    
-
+   
+   
    但是使用通配符Box<?>[] 创建数组是可以的，它的元素可以是任意已Box类（及其子类）为原始类型的泛型类。
 
 
@@ -191,9 +216,15 @@ S,U,V 等：第二，第三，第四个类型
 
 ​	***如果你只需要将类型T放到集合中, 使用<? super T>通配符***
 
+​	若 List是 生产者 -- 定义成 List<? extends X>，只允许取
+
+​	若 List是消费者 -- 定义成 List<? super X> ，只允许存。
+
+
+
 ​	如果你既要获取又要放置元素，则不使用任何通配符。例如List<Apple>
 
-​	PECS即 Producer extends Consumer super， 为了便于记忆。
+​	PECS即 Producer extends  Consumer super， 为了便于记忆。
 
 如图可见，向List<? extends Object> 中添加元素编译不通过。
 
@@ -212,6 +243,13 @@ S,U,V 等：第二，第三，第四个类型
 ![image-20200828194533164](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200828194533164.png)
 
 
+
+> 在什么情况下可以在运行时获取泛型参数？
+>
+
+```
+
+```
 
 
 
@@ -296,7 +334,9 @@ https://zhuanlan.zhihu.com/p/35387281
 
 
 
-#### 注解实践 -- 通过自定义注解与反射实现页面跳转的参数注入：
+#### 注解实践 
+
+##### 1.通过自定义注解与反射实现页面跳转的参数注入：
 
 new Intent().putExtra("name","Lance").putExtra("boy",true); //页面跳转携带参数
 
@@ -354,9 +394,7 @@ public static void injectAutowired(Activity activity) {
 
 
 
-#### 面试问题
-
-- 注解实现一个提示功能：如果int的值大于了3需要提示。
+##### 2.注解实现一个提示功能：如果int的值大于了3需要提示。
 
 ```
 
@@ -378,6 +416,8 @@ public static void injectAutowired(Activity activity) {
 
 
 
+
+
 #### Class对象
 
 我们知道对象是类的实例，比如zhangSan 是Person类的一个实例，Person类中定义了Person类所拥有的属性和方法。而Class类则是封装了对于类文件的属性获取或操作手段。基于Class类，可以实现反射机制的主要功能。
@@ -388,7 +428,7 @@ public static void injectAutowired(Activity activity) {
 
 通过反射来生成对象主要有两种方式：
 
-- 使用Class对象的newInstance() 方法来创建实例
+- 使用Class对象的**newInstance() 方法**来创建实例
 
   ```
   Class<?> c = String.class;
@@ -397,7 +437,7 @@ public static void injectAutowired(Activity activity) {
 
   
 
-- 先通过Class对象获取指定的Construtor对象，再调用**Constructor**对象的newInstance()方法创建实例，这种方法可以利用指定的构造器构造类的实例。
+- 先通过Class对象的**getConstructor()方法**获取构造器对象，再调用**Constructor对象的newInstance()方法**创建实例，这种方法可以利用指定的构造器构造类的实例。
 
   ```
   Class<?> c = String.class;
@@ -411,13 +451,13 @@ public static void injectAutowired(Activity activity) {
 > 获取构造器信息
 
 ```
-Constructor getConstructor(Class[] params) -- 获得使用特殊的参数类型的public构造函数(包括父类) Constructor[] getConstructors() -- 获得类的所有公共构造函数
-Constructor getDeclaredConstructor(Class[] params) -- 获得使用特定参数类型的构造函数(包括私有) Constructor[] getDeclaredConstructors() -- 获得类的所有构造函数(与接入级别无关)
+Constructor getConstructor(Class[] params) // 获得使用特殊的参数类型的public构造函数(包括父类) Constructor[] getConstructors() //获得类的所有公共构造函数
+Constructor getDeclaredConstructor(Class[] params) // 获得使用特定参数类型的构造函数(包括私有) Constructor[] getDeclaredConstructors() // 获得类的所有构造函数(与接入级别无关)
 ```
 
 
 
-##### 获取类的成员变量(字段)信息
+##### 获取类的成员属性(字段)信息
 
 ```
 Field getField(String name) -- 获得命名的公共字段
@@ -428,11 +468,49 @@ Field[] getDeclaredFields() -- 获得类声明的所有字段
 
 
 
+*通过反射获取成员变量具体对象*
+
+filed.get(Object owner)  
+
+例，获取一个BaseClassLoader对象的dexPathList成员变量：
+
+```java
+						Class<?> clazz = Class.forName("dalvik.system.BaseDexClassLoader");
+            Field pathListField = clazz.getDeclaredField("pathList");
+            pathListField.setAccessible(true);	
+						// 宿主的 类加载器
+            ClassLoader pathClassLoader = context.getClassLoader();
+            // DexPathList对象
+            Object hostPathList = pathListField.get(pathClassLoader);
+```
+
+
+
+*通过反射赋值给具体成员变量*
+
+filed.set(owner,value);
+
+给宿主ClassLoader的pathList变量的dexElements属性设置新值，例：
+
+```java
+ Class<?> dexPathListClass = Class.forName("dalvik.system.DexPathList");
+            Field dexElementsField = dexPathListClass.getDeclaredField("dexElements");
+            dexElementsField.setAccessible(true);
+            
+ dexElementsField.set(hostPathList, newDexElements);
+```
+
+语义为：访问 dalvik.system.DexPathList的 dexElements 属性
+
+为DexPathList对象 hostPathList 的dexElements属性赋值为newDexElements。
+
+
+
 ##### 调用方法
 
 获取方法信息：
 
-```
+```java
 Method getMethod(String name, Class[] params) -- 使用特定的参数类型，获得命名的公共方法
 Method[] getMethods() -- 获得类的所有公共方法
 Method getDeclaredMethod(String name, Class[] params) -- 使用特写的参数类型，获得类声明的命名的方法 
@@ -441,9 +519,15 @@ Method[] getDeclaredMethods() -- 获得类声明的所有方法
 
 调用方法：
 
-```
+```java
 public Object invoke(Object obj, Object... args)
 ```
+
+
+
+> 反射调用静态方法
+
+静态方法与具体对象无关， invoke(null)
 
 
 
@@ -465,7 +549,7 @@ public static Object newInstance(Class<?> componentType, int length);
 
 ​	反射的核心是从通过Class的对象，获取属性、构造方法、成员方法等信息，而Class类则是实现了Type接口：
 
-![image-20200907192548753](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907192548753.png)
+![image-20200907192548753](./images/image-20200907192548753.png)
 
 - TypeVariable  
 
@@ -487,19 +571,19 @@ public static Object newInstance(Class<?> componentType, int length);
 
 ​	我们知道java编译时，将泛型信息擦除了，但是 java运行时仍可获取到泛型信息：
 
-![image-20200907194257012](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907194257012.png)
+![image-20200907194257012](./images/image-20200907194257012.png)
 
 
 
 > **泛型信息是如何保存到.class字节码文件、运行时被作为ParameterizedType的读取到的？**
 
-![image-20200907214951973](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907214951973.png)
+![image-20200907214951973](./images/image-20200907214951973.png)
 
 .java 编译成.class字节码文件后，生成signature签名，记录了泛型信息。
 
-native层 生成Class对象、Filed对象，并将原始signature签名信息 赋值给Filed signature成员（Class元数据）。
+native层 生成Class对象、Filed对象，并将原始signature签名信息 赋值给**Filed signature**成员（Class元数据）。
 
-反射得到Field ，调用getGenericType() 方法，最终由GenericDeclRepository 解析 signature字段 ，获取到到类型变量。
+反射得到Field ，调用**getGenericType()** 方法，最终由GenericDeclRepository 解析 signature字段 ，获取到到类型变量。
 
 
 
@@ -511,11 +595,9 @@ native层 生成Class对象、Filed对象，并将原始signature签名信息 �
 
 ##### 反射获取注解信息
 
+`设计：实现View注入，替代findviewbyid`
 
-
-`小设计：实现View注入，替代findviewbyid`
-
-![image-20200907221411046](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907221411046.png)
+![image-20200907221411046](./images/image-20200907221411046.png)
 
 
 
@@ -531,11 +613,24 @@ https://zhuanlan.zhihu.com/p/152635495
 
 > **反射为什么慢 ？ 为什么说反射机制会有性能问题？**
 
-- 反射调用过程中会产生大量的临时对象，这些对象会占用内存，可能会导致频繁 gc，从而影响性能。
+- 反射调用过程中会产生大量的**临时对象**，这些对象会占用内存，可能会导致频繁 gc，从而影响性能。比如Class.getMethods() ：
 
-- 反射调用方法时会从方法数组中遍历查找，并且会检查可见性等操作会耗时。
-- 反射在达到一定次数（15次）时，会动态编写字节码并加载到内存中，这个字节码没有经过编译器优化，也不能享受JIT优化。
-- 反射一般会涉及自动装箱/拆箱和类型转换，都会带来一定的资源开销。
+  ```java
+    public Method[] getMethods() throws SecurityException {
+          List<Method> methods = new ArrayList<Method>();
+          getPublicMethodsInternal(methods);
+          CollectionUtils.removeDuplicates(methods, Method.ORDER_BY_SIGNATURE);
+          return methods.toArray(new Method[methods.size()]);
+      }
+  ```
+
+  
+
+- 反射调用方法时会**遍历方法数组**，并且会**检查可见性**等操作会耗时。
+
+- 反射在**达到一定次数（15次）时，会动态编写字节码并加载到内存中**，这个字节码没有**经过编译器优化，也不能享受JIT优化**。
+
+- 反射一般会涉及**自动装箱/拆箱和类型转换**，都会带来一定的资源开销。
 
 
 
@@ -545,7 +640,7 @@ https://zhuanlan.zhihu.com/p/152635495
 
 先说java类的完整生命周期
 
-![image-20200907195141266](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907195141266.png)
+![image-20200907195141266](./images/image-20200907195141266.png)
 
 
 
@@ -559,13 +654,35 @@ https://zhuanlan.zhihu.com/p/152635495
 
 ##### 动态代理原理	
 
-实际上，本质上与静态代理相同， Proxy.newProxyInstance 会创建一个代理了指定接口的Class，与静态代理不同的是，这个Class不是由具体的.java源文件编译 而来，即没有真正的文件，只是在内存中按照Class格式生成了一个Class。初始化获得method备用。
+实际上，本质上与静态代理相同， Proxy.newProxyInstance 会创建一个代理了指定接口的Class，**与静态代理不同的是，这个Class不是由具体的.java源文件编译 而来，即没有真正的文件，只是在内存中按照Class格式生成了一个Class。**初始化获得method备用。
 
-![image-20200907222752016](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907222752016.png)
+![image-20200907222752016](./images/image-20200907222752016.png)
+
+创建代理类时，外部会传入InvokeHandler和被代理接口，InvokeHandler充当的时回调的角色。这个代理类内部，通过反射拿到代理接口的方法，生成对应的Method对象，外部调用到某个方法时，通过 InvokeHandler 的回调方法 invoke() ，将Method对象传回给外部，从而实现了所有被代理接口的所有方法，都通过invoke方法统一起来。
 
 
 
-![image-20200907222948287](/Users/zhanghongxi/Library/Application Support/typora-user-images/image-20200907222948287.png)
+![image-20200907222948287](./images/image-20200907222948287.png)
+
+
+
+###### 动态代理内部，是如何在内存中生成代理Class的？
+
+
+
+WeakCache
+
+```
+proxyClassCache.get(loader, interfaces)
+```
+
+调用到native 的generateProxy方法：
+
+```
+Class<?> generateProxy(String name, Class<?>[] interfaces,
+                                                 ClassLoader loader, Method[] methods,
+                                                 Class<?>[][] exceptions);
+```
 
 
 
@@ -703,7 +820,7 @@ static class ListenerInvokeHandler<T> implements InvocationHandler {
 
 
 
-#### 面试问题
+#### 
 
 - > 动态代理传入的参数都有哪些？非接口的类能实现动态代理吗？
 
@@ -721,7 +838,21 @@ https://cloud.tencent.com/developer/article/1461796
 
 
 
+### 序列化
 
+
+
+
+
+
+
+### 内部类
+
+> static引用外部类变量
+
+
+
+> 内部类为什么可以访问到外部类？持有外部类的引用，这个引用是在什么什么时候持有的
 
 
 
@@ -729,10 +860,36 @@ https://cloud.tencent.com/developer/article/1461796
 
 ### 封装类问题
 
-> 两个值相等的 Integer 对象，== 比较，判断是否相等？
+#### **Object类**
+
+Object类中有哪些方法及如何使用？
+
+
+
+
+
+
+
+#### Integer
+
+##### 两个值相等的 Integer 对象，== 比较，判断是否相等？
 
 ```
 Integer类中通过静态内部类 IntegerCache 缓存了一个Integer对象数组， 如果数值在 高位127 低位-128，即[-128,127] 区间内，通过Integer.valueOf(int)方法获得的Integer对象是从缓存池里取的。
+```
+
+
+
+#### String
+
+##### java String类，为什么设计成不可变
+
+```
+1.设计角度上看。字符串是内存大户，所以要设计成保存到常量池中，重复利用。
+
+2.安全性角度来看。url、密码等，在程序中以字符串形式存在于内存中，且保存在常量池里。如果可变，字符串值被篡改...
+
+3.效率优化角度。String类中使用char[]数组保存数据，int hash缓存hashcode。String设计成不可变的，保证了hascode唯一性，hash值可以放心使用，不需要重新计算。这也是Map可以使用String作为Key的原因。
 ```
 
 
@@ -743,9 +900,15 @@ Integer类中通过静态内部类 IntegerCache 缓存了一个Integer对象数�
 
 ### 其他语言特性问题
 
-#### 多态在内存中的实现 -- 虚函数表
+#### 多态
 
-![image-20210118104233612](/Users/zhanghongxi/ABP-study/StudySpace/images/image-20210118104233612.png)
+##### invokeVirtual,invokeInteface,为什么你会觉得抽象类的效率高
+
+
+
+##### 多态在内存中的实现 -- 虚函数表
+
+![image-20210118104233612](./images/image-20210118104233612.png)
 
 每个类，只要维持一个虚函数表就可以了。
 每个对象，只要记录一个虚函数表的地址就可以了。
@@ -790,6 +953,24 @@ public void test() {
 输出：str值为: 81 的 老花
 
 
+
+辨析Java值传递
+
+https://cloud.tencent.com/developer/article/1645738?from=article.detail.1645927
+
+
+
+#### 异常处理
+
+Exception 和 Error都是Throwable类的子类
+
+Error类对象一般由Java虚拟机生成并抛出，不可捕捉。表示出现的情况背离了可接受的一般法则。
+
+Exception则是一种正常程序流程指令流中断。
+
+不管有没有异常，finally中代码保证一定会执行
+
+当try...catch中有return时，finally中的代码依然会继续执行
 
 
 
